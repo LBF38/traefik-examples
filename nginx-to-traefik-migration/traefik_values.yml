@@ -1,3 +1,9 @@
+image:
+  registry: docker.io
+  repository: traefik/traefik
+  tag: v100.0.0
+  pullPolicy: Never
+
 providers:
   kubernetesIngressNginx:
     enabled: true
