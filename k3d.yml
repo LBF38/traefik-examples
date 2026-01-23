@@ -1,0 +1,22 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: mycluster
+servers: 1
+agents: 0
+ports:
+  - port: 8000:80
+    nodeFilters:
+      - loadbalancer
+  - port: 8443:443
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+    timeout: "60s"
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
