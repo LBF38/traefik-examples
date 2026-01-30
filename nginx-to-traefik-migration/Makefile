@@ -85,3 +85,28 @@ start-cluster:
 .PHONY: stop-cluster
 stop-cluster:
 	k3d cluster stop $(K3D_CLUSTER_NAME)
+
+
+# --- UTILS ---
+.PHONY: generate-tls-certs
+generate-tls-certs:
+	@echo "Generating CA Certificate..."
+	openssl genrsa -out ca.key 2048
+	openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=Testing CA"
+	@echo "Generating server Certificates"
+	openssl genrsa -out server.key 2048
+	openssl req -new -key server.key -out server.csr -subj "/CN=your-domain.com"
+	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
+	@echo "Generating client Certificates"
+	openssl genrsa -out client.key 2048
+	openssl req -new -key client.key -out client.csr -subj "/CN=Test Client"
+	openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 365 -sha256
+
+.PHONY: k8s-tls-secret
+k8s-tls-secret:
+	$(KUBECTL) create secret tls tls-secret --cert=server.crt --key=server.key
+
+
+.PHONY: canary-testing
+canary-testing:
+	for i in {1..100}; do curl -s http://production.localhost:9000 | grep "Name:"; done | sort | uniq -c
