@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: app-regex
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: regex.app.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: myapp
+                port:
+                  number: 80
+            path: /my-app(/|$)(.*)
+            pathType: Prefix
+status:
+  loadBalancer: {}

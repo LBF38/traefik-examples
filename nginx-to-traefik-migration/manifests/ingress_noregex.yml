@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-noregex
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: noregex.app.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: myapp
+                port:
+                  number: 80
+            path: /my-app(/|$)(.*)
+            pathType: Prefix
+status:
+  loadBalancer: {}
