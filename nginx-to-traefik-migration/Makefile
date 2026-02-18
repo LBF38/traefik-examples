@@ -1,6 +1,6 @@
 # --- Variables ---
 SHELL := /bin/bash
-K3D_CLUSTER_NAME ?= mycluster
+K3D_CLUSTER_NAME ?= rewrite
 HELM ?= helm
 KUBECTL ?= kubectl
 
@@ -95,7 +95,7 @@ generate-tls-certs:
 	openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=Testing CA"
 	@echo "Generating server Certificates"
 	openssl genrsa -out server.key 2048
-	openssl req -new -key server.key -out server.csr -subj "/CN=your-domain.com"
+	openssl req -new -key server.key -out server.csr -subj "/CN=traefik-test1.localhost"
 	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
 	@echo "Generating client Certificates"
 	openssl genrsa -out client.key 2048

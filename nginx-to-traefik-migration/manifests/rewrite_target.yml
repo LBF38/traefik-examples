@@ -1,0 +1,47 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - my-app-test.localhost
+      secretName: foo-bar
+  rules:
+    - host: my-app-test.localhost
+      http:
+        paths:
+          - path: /endpoint/endpoint1(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: endpoint1-test
+                port:
+                  number: 80
+          - path: /endpoint/endpoint2(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: endpoint2-test
+                port:
+                  number: 80
+          - path: /endpoint/endpoint3(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: endpoint3-test
+                port:
+                  number: 80
+          - path: /endpoint/endpoint4(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: endpoint4-test
+                port:
+                  number: 80
+

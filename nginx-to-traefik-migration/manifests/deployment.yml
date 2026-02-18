@@ -2,11 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myapp
-  annotations:
-    # These NGINX annotations are automatically translated by Traefik
-    nginx.ingress.kubernetes.io/app-root: /test
+  # annotations:
+  #   # These NGINX annotations are automatically translated by Traefik
 spec:
   ingressClassName: nginx # ← Traefik will watch this class
+  tls:
+    - hosts:
+        - domain.com
+      secretName: tls-secret
   rules:
     - host: whoami.localhost
       http:

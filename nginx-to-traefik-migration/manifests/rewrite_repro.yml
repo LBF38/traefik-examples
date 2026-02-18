@@ -1,0 +1,127 @@
+# apiVersion: networking.k8s.io/v1
+# kind: IngressClass
+# metadata:
+#   name: traefik
+#   labels:
+#     app.kubernetes.io/instance: traefik-traefik
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: traefik
+#     helm.sh/chart: traefik-39.0.0
+#   annotations:
+#     ingressclass.kubernetes.io/is-default-class: "true"
+#     meta.helm.sh/release-name: traefik
+#     meta.helm.sh/release-namespace: traefik
+#   selfLink: /apis/networking.k8s.io/v1/ingressclasses/traefik
+# spec:
+#   controller: traefik.io/ingress-controller
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-traefik
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - traefik-test1.localhost
+      secretName: tls-secret
+  rules:
+    - host: traefik-test1.localhost
+      http:
+        paths:
+          - path: /path/app1(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: app1
+                port:
+                  number: 80
+          - path: /path/app2(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: app2
+                port:
+                  number: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "--verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: app1
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1
+spec:
+  selector:
+    app: app1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app2
+  template:
+    metadata:
+      labels:
+        app: app2
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "--verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: app2
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2
+spec:
+  selector:
+    app: app2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

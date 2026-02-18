@@ -18,6 +18,16 @@ spec:
                 name: canary
                 port:
                   number: 80
+    - host: other.localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: canary
+                port:
+                  number: 80
 
 ---
 apiVersion: apps/v1
