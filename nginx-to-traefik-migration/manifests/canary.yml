@@ -4,30 +4,45 @@ metadata:
   name: canary
   annotations:
     nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "25"
+    nginx.ingress.kubernetes.io/canary-weight: "50"
+    # nginx.ingress.kubernetes.io/canary-by-header: "Toto"
 spec:
   ingressClassName: nginx
   rules:
     - host: production.localhost
       http:
         paths:
-          - path: /
+          - path: /1
             pathType: Prefix
             backend:
               service:
                 name: canary
                 port:
                   number: 80
-    - host: other.localhost
+    - host: production.localhost
       http:
         paths:
-          - path: /
+          - path: /2
             pathType: Prefix
             backend:
               service:
-                name: canary
+                name: canary2
                 port:
                   number: 80
+    # - host: other.localhost
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: canary
+    #             port:
+    #               number: 80
+  # tls:
+  #   - hosts:
+  #       - production.localhost
+  #     secretName: tls-secret
 
 ---
 apiVersion: apps/v1

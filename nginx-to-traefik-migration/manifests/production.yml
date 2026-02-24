@@ -1,31 +1,66 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: test
+  name: production
+  annotations:
+    nginx.ingress.kubernetes.io/temporal-redirect: https://traefik.io
 spec:
   ingressClassName: nginx
+  # defaultBackend:
+  #   service:
+  #     name: canary2
+  #     port:
+  #       number: 80
   rules:
-    - host: myapp.localhost
+    - host: production.localhost
       http:
         paths:
-          - path: /
+          - path: /1
             pathType: Prefix
             backend:
               service:
                 name: production
                 port:
                   number: 80
-    - host: other.localhost
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: production2
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://google.com
+spec:
+  ingressClassName: nginx
+  # defaultBackend:
+  #   service:
+  #     name: canary2
+  #     port:
+  #       number: 80
+  rules:
+    - host: production.localhost
       http:
         paths:
-          - path: /
+          - path: /2
             pathType: Prefix
             backend:
               service:
                 name: production
                 port:
                   number: 80
-
+    # - host: other.localhost
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: production
+    #             port:
+    #               number: 80
+  # tls:
+  #   - hosts:
+  #       - production.localhost
+  #     secretName: tls-secret
 ---
 apiVersion: apps/v1
 kind: Deployment

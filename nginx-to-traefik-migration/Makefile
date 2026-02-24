@@ -1,6 +1,6 @@
 # --- Variables ---
 SHELL := /bin/bash
-K3D_CLUSTER_NAME ?= rewrite
+K3D_CLUSTER_NAME ?= mycluster
 HELM ?= helm
 KUBECTL ?= kubectl
 
@@ -95,7 +95,7 @@ generate-tls-certs:
 	openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=Testing CA"
 	@echo "Generating server Certificates"
 	openssl genrsa -out server.key 2048
-	openssl req -new -key server.key -out server.csr -subj "/CN=traefik-test1.localhost"
+	openssl req -new -key server.key -out server.csr -subj "/CN=production.localhost"
 	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
 	@echo "Generating client Certificates"
 	openssl genrsa -out client.key 2048
@@ -106,7 +106,21 @@ generate-tls-certs:
 k8s-tls-secret:
 	$(KUBECTL) create secret tls tls-secret --cert=server.crt --key=server.key
 
+.PHONY: canary-testing-nginx
+canary-testing-nginx:
+	for i in {1..100}; do curl -s http://production.localhost:9000/path1 | grep "Name:"; done | sort | uniq -c
 
-.PHONY: canary-testing
-canary-testing:
-	for i in {1..100}; do curl -s http://production.localhost:9000 | grep "Name:"; done | sort | uniq -c
+.PHONY: canary-testing-traefik
+canary-testing-traefik:
+	for i in {1..100}; do curl -s http://production.localhost:8000/random | grep "Name:"; done | sort | uniq -c
+
+.PHONY: canary-test
+canary-test:
+	@if [ -z "$(URL)" ]; then \
+		echo "Usage: make canary-test URL=<url> [COUNT=<n>]"; \
+		exit 1; \
+	fi
+	@COUNT=$${COUNT:-100}; \
+	for i in $$(seq 1 $${COUNT}); do \
+		curl -s "$(URL)" | grep "Name:"; \
+	done | sort | uniq -c
