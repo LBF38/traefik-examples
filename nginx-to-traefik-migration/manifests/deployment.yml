@@ -4,28 +4,82 @@ metadata:
   name: myapp
   annotations:
     # These NGINX annotations are automatically translated by Traefik
-    nginx.ingress.kubernetes.io/app-root: /test
+    #nginx.ingress.kubernetes.io/app-root: /test
+    nginx.ingress.kubernetes.io/default-backend: defaultbackend2
+    #nginx.ingress.kubernetes.io/custom-http-errors: "500"
+    #nginx.ingress.kubernetes.io/configuration-snippet: |
+#   nginx.ingress.kubernetes.io/server-snippet: |
+#     proxy_set_header X-Path A;
+#     add_header X-Path A;
+#   
+#   nginx.ingress.kubernetes.io/auth-url: http://test
+#   nginx.ingress.kubernetes.io/auth-signin: "http://$host/juliens"
+#   nginx.ingress.kubernetes.io/server-snippet: |
+#     more_set_headers 'X-MyHeaderSet:   C i ';
+#     more_set_headers 'X-MyHeaderSet2: C';
+#     
+#     add_header X-MyHeaderAdd ${http_toto};
+#     add_header X-MyHeaderAdd2 C;
+#     location /pathC {
+#       proxy_pass http://upstream_balancer;
+#     }
 spec:
   ingressClassName: nginx # ← Traefik will watch this class
+  defaultBackend:
+    service:
+      name: defaultbackend3
+      port:
+        number: 80
   rules:
     - host: whoami.localhost
       http:
         paths:
-          - path: /
+          - path: /pathA
             pathType: Prefix
             backend:
               service:
                 name: myapp
                 port:
                   number: 80
-
 ---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: myapp2
+#  annotations:
+#    # These NGINX annotations are automatically translated by Traefik
+#    #nginx.ingress.kubernetes.io/app-root: /test
+#    #nginx.ingress.kubernetes.io/default-backend: defaultbackend2
+#    #nginx.ingress.kubernetes.io/custom-http-errors: "404,415"
+##   nginx.ingress.kubernetes.io/configuration-snippet: |
+##       add_header X-Path B;
+##       add_header X-PathA B;
+#spec:
+#  ingressClassName: nginx # ← Traefik will watch this class
+## defaultBackend:
+##   service:
+##     name: defaultbackend2
+##     port:
+##       number: 80
+#  rules:
+#    - host: whoami.localhost
+#      http:
+#        paths:
+#          - path: /pathB
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: myapp
+#                port:
+#                  number: 80
+#
+#---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: myapp
@@ -38,7 +92,7 @@ spec:
         - name: whoami
           image: traefik/whoami
           args:
-            - "--verbose"
+            - "-verbose"
           env:
             - name: WHOAMI_NAME
               value: MYAPP
@@ -53,6 +107,120 @@ metadata:
 spec:
   selector:
     app: myapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: defaultbackend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: defaultbackend
+  template:
+    metadata:
+      labels:
+        app: defaultbackend
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "-verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: defaultbackend
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: defaultbackend
+spec:
+  selector:
+    app: defaultbackend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: defaultbackend2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: defaultbackend2
+  template:
+    metadata:
+      labels:
+        app: defaultbackend2
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "-verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: defaultbackend2
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: defaultbackend2
+spec:
+  selector:
+    app: defaultbackend2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: defaultbackend3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: defaultbackend3
+  template:
+    metadata:
+      labels:
+        app: defaultbackend3
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "-verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: defaultbackend3
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: defaultbackend3
+spec:
+  selector:
+    app: defaultbackend3
   ports:
     - protocol: TCP
       port: 80
