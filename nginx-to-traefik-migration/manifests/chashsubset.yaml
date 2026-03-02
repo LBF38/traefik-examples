@@ -58,7 +58,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/upstream-hash-by: "$http_x_hash-text-value"
+    nginx.ingress.kubernetes.io/upstream-hash-by: "${http_x_hash}text-value"
     # nginx.ingress.kubernetes.io/upstream-hash-by-subset: "true"
     # nginx.ingress.kubernetes.io/upstream-hash-by-subset-size: "5"
   name: nginxhello-ingress
