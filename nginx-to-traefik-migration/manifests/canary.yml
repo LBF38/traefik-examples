@@ -5,11 +5,13 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-weight: "50"
-    # nginx.ingress.kubernetes.io/canary-by-header: "Toto"
+    nginx.ingress.kubernetes.io/canary-by-cookie: "foo"
+    # nginx.ingress.kubernetes.io/affinity-canary-behavior: "legacy"
+    # nginx.ingress.kubernetes.io/session-cookie-name: "foo"
 spec:
   ingressClassName: nginx
   rules:
-    - host: production.localhost
+    - host: alias.localhost
       http:
         paths:
           - path: /1
@@ -19,30 +21,45 @@ spec:
                 name: canary
                 port:
                   number: 80
-    - host: production.localhost
-      http:
-        paths:
-          - path: /2
-            pathType: Prefix
-            backend:
-              service:
-                name: canary2
-                port:
-                  number: 80
-    # - host: other.localhost
-    #   http:
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    #         backend:
-    #           service:
-    #             name: canary
-    #             port:
-    #               number: 80
+          # - path: /2
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: canary2
+          #       port:
+          #         number: 80
   # tls:
   #   - hosts:
   #       - production.localhost
   #     secretName: tls-secret
+
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: canary2
+#   annotations:
+#     nginx.ingress.kubernetes.io/canary: "true"
+#     nginx.ingress.kubernetes.io/canary-weight: "50"
+#     nginx.ingress.kubernetes.io/canary-by-cookie: "foo"
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#     - host: production.localhost
+#       http:
+#         paths:
+#           - path: /test
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: canary2
+#                 port:
+#                   number: 80
+# tls:
+#   - hosts:
+#       - production.localhost
+#     secretName: tls-secret
 
 ---
 apiVersion: apps/v1
@@ -50,7 +67,7 @@ kind: Deployment
 metadata:
   name: canary
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: canary
@@ -64,12 +81,23 @@ spec:
           image: traefik/whoami
           args:
             - "--verbose"
+            # - "--cert=/etc/tls/tls.crt"
+            # - "--key=/etc/tls/tls.key"
+            - "--port=80"
           env:
             - name: WHOAMI_NAME
               value: canary
+          volumeMounts:
+            - name: tls
+              mountPath: /etc/tls
+              readOnly: true
           ports:
             - containerPort: 80
-
+            - containerPort: 443
+      volumes:
+        - name: tls
+          secret:
+            secretName: tls-secret
 ---
 apiVersion: v1
 kind: Service
@@ -78,6 +106,50 @@ metadata:
 spec:
   selector:
     app: canary
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+    - protocol: TCP
+      port: 443
+      name: https
+      targetPort: 443
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: canary2
+  template:
+    metadata:
+      labels:
+        app: canary2
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          args:
+            - "--verbose"
+          env:
+            - name: WHOAMI_NAME
+              value: canary2
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary2
+spec:
+  selector:
+    app: canary2
   ports:
     - protocol: TCP
       port: 80
