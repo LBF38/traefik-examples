@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "http://$host-auth/authenticate"
+    nginx.ingress.kubernetes.io/auth-url: "https://httpbin.org/basic-auth/user/password"
     nginx.ingress.kubernetes.io/auth-signin: "http://$host-test/some-value"
   name: whoami
   namespace: default

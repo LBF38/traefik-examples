@@ -1,0 +1,404 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "value": "dummy_value_0"
+    },
+    {
+      "id": 1,
+      "value": "dummy_value_1"
+    },
+    {
+      "id": 2,
+      "value": "dummy_value_2"
+    },
+    {
+      "id": 3,
+      "value": "dummy_value_3"
+    },
+    {
+      "id": 4,
+      "value": "dummy_value_4"
+    },
+    {
+      "id": 5,
+      "value": "dummy_value_5"
+    },
+    {
+      "id": 6,
+      "value": "dummy_value_6"
+    },
+    {
+      "id": 7,
+      "value": "dummy_value_7"
+    },
+    {
+      "id": 8,
+      "value": "dummy_value_8"
+    },
+    {
+      "id": 9,
+      "value": "dummy_value_9"
+    },
+    {
+      "id": 10,
+      "value": "dummy_value_10"
+    },
+    {
+      "id": 11,
+      "value": "dummy_value_11"
+    },
+    {
+      "id": 12,
+      "value": "dummy_value_12"
+    },
+    {
+      "id": 13,
+      "value": "dummy_value_13"
+    },
+    {
+      "id": 14,
+      "value": "dummy_value_14"
+    },
+    {
+      "id": 15,
+      "value": "dummy_value_15"
+    },
+    {
+      "id": 16,
+      "value": "dummy_value_16"
+    },
+    {
+      "id": 17,
+      "value": "dummy_value_17"
+    },
+    {
+      "id": 18,
+      "value": "dummy_value_18"
+    },
+    {
+      "id": 19,
+      "value": "dummy_value_19"
+    },
+    {
+      "id": 20,
+      "value": "dummy_value_20"
+    },
+    {
+      "id": 21,
+      "value": "dummy_value_21"
+    },
+    {
+      "id": 22,
+      "value": "dummy_value_22"
+    },
+    {
+      "id": 23,
+      "value": "dummy_value_23"
+    },
+    {
+      "id": 24,
+      "value": "dummy_value_24"
+    },
+    {
+      "id": 25,
+      "value": "dummy_value_25"
+    },
+    {
+      "id": 26,
+      "value": "dummy_value_26"
+    },
+    {
+      "id": 27,
+      "value": "dummy_value_27"
+    },
+    {
+      "id": 28,
+      "value": "dummy_value_28"
+    },
+    {
+      "id": 29,
+      "value": "dummy_value_29"
+    },
+    {
+      "id": 30,
+      "value": "dummy_value_30"
+    },
+    {
+      "id": 31,
+      "value": "dummy_value_31"
+    },
+    {
+      "id": 32,
+      "value": "dummy_value_32"
+    },
+    {
+      "id": 33,
+      "value": "dummy_value_33"
+    },
+    {
+      "id": 34,
+      "value": "dummy_value_34"
+    },
+    {
+      "id": 35,
+      "value": "dummy_value_35"
+    },
+    {
+      "id": 36,
+      "value": "dummy_value_36"
+    },
+    {
+      "id": 37,
+      "value": "dummy_value_37"
+    },
+    {
+      "id": 38,
+      "value": "dummy_value_38"
+    },
+    {
+      "id": 39,
+      "value": "dummy_value_39"
+    },
+    {
+      "id": 40,
+      "value": "dummy_value_40"
+    },
+    {
+      "id": 41,
+      "value": "dummy_value_41"
+    },
+    {
+      "id": 42,
+      "value": "dummy_value_42"
+    },
+    {
+      "id": 43,
+      "value": "dummy_value_43"
+    },
+    {
+      "id": 44,
+      "value": "dummy_value_44"
+    },
+    {
+      "id": 45,
+      "value": "dummy_value_45"
+    },
+    {
+      "id": 46,
+      "value": "dummy_value_46"
+    },
+    {
+      "id": 47,
+      "value": "dummy_value_47"
+    },
+    {
+      "id": 48,
+      "value": "dummy_value_48"
+    },
+    {
+      "id": 49,
+      "value": "dummy_value_49"
+    },
+    {
+      "id": 50,
+      "value": "dummy_value_50"
+    },
+    {
+      "id": 51,
+      "value": "dummy_value_51"
+    },
+    {
+      "id": 52,
+      "value": "dummy_value_52"
+    },
+    {
+      "id": 53,
+      "value": "dummy_value_53"
+    },
+    {
+      "id": 54,
+      "value": "dummy_value_54"
+    },
+    {
+      "id": 55,
+      "value": "dummy_value_55"
+    },
+    {
+      "id": 56,
+      "value": "dummy_value_56"
+    },
+    {
+      "id": 57,
+      "value": "dummy_value_57"
+    },
+    {
+      "id": 58,
+      "value": "dummy_value_58"
+    },
+    {
+      "id": 59,
+      "value": "dummy_value_59"
+    },
+    {
+      "id": 60,
+      "value": "dummy_value_60"
+    },
+    {
+      "id": 61,
+      "value": "dummy_value_61"
+    },
+    {
+      "id": 62,
+      "value": "dummy_value_62"
+    },
+    {
+      "id": 63,
+      "value": "dummy_value_63"
+    },
+    {
+      "id": 64,
+      "value": "dummy_value_64"
+    },
+    {
+      "id": 65,
+      "value": "dummy_value_65"
+    },
+    {
+      "id": 66,
+      "value": "dummy_value_66"
+    },
+    {
+      "id": 67,
+      "value": "dummy_value_67"
+    },
+    {
+      "id": 68,
+      "value": "dummy_value_68"
+    },
+    {
+      "id": 69,
+      "value": "dummy_value_69"
+    },
+    {
+      "id": 70,
+      "value": "dummy_value_70"
+    },
+    {
+      "id": 71,
+      "value": "dummy_value_71"
+    },
+    {
+      "id": 72,
+      "value": "dummy_value_72"
+    },
+    {
+      "id": 73,
+      "value": "dummy_value_73"
+    },
+    {
+      "id": 74,
+      "value": "dummy_value_74"
+    },
+    {
+      "id": 75,
+      "value": "dummy_value_75"
+    },
+    {
+      "id": 76,
+      "value": "dummy_value_76"
+    },
+    {
+      "id": 77,
+      "value": "dummy_value_77"
+    },
+    {
+      "id": 78,
+      "value": "dummy_value_78"
+    },
+    {
+      "id": 79,
+      "value": "dummy_value_79"
+    },
+    {
+      "id": 80,
+      "value": "dummy_value_80"
+    },
+    {
+      "id": 81,
+      "value": "dummy_value_81"
+    },
+    {
+      "id": 82,
+      "value": "dummy_value_82"
+    },
+    {
+      "id": 83,
+      "value": "dummy_value_83"
+    },
+    {
+      "id": 84,
+      "value": "dummy_value_84"
+    },
+    {
+      "id": 85,
+      "value": "dummy_value_85"
+    },
+    {
+      "id": 86,
+      "value": "dummy_value_86"
+    },
+    {
+      "id": 87,
+      "value": "dummy_value_87"
+    },
+    {
+      "id": 88,
+      "value": "dummy_value_88"
+    },
+    {
+      "id": 89,
+      "value": "dummy_value_89"
+    },
+    {
+      "id": 90,
+      "value": "dummy_value_90"
+    },
+    {
+      "id": 91,
+      "value": "dummy_value_91"
+    },
+    {
+      "id": 92,
+      "value": "dummy_value_92"
+    },
+    {
+      "id": 93,
+      "value": "dummy_value_93"
+    },
+    {
+      "id": 94,
+      "value": "dummy_value_94"
+    },
+    {
+      "id": 95,
+      "value": "dummy_value_95"
+    },
+    {
+      "id": 96,
+      "value": "dummy_value_96"
+    },
+    {
+      "id": 97,
+      "value": "dummy_value_97"
+    },
+    {
+      "id": 98,
+      "value": "dummy_value_98"
+    },
+    {
+      "id": 99,
+      "value": "dummy_value_99"
+    }
+  ]
+}
