@@ -4,8 +4,10 @@ metadata:
   name: host-route
 spec:
   routes:
-    - match: Host(`hello.localhost`) && !PathPrefix(`/internal`)
+    - match: Host(`buffer.localhost`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: whoami
+        - name: auth-server
           port: 80
+      middlewares:
+        - name: limit

@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: myapp
   # annotations:
-  #   # These NGINX annotations are automatically translated by Traefik
+  #   These NGINX annotations are automatically translated by Traefik
 spec:
   ingressClassName: nginx # ← Traefik will watch this class
   tls:

@@ -18,6 +18,11 @@ ingressRoute:
     matchRule: Host(`dashboard.localhost`)
     entryPoints: ["web"]
 
-# logs:
-#   general:
-#     level: DEBUG
+logs:
+  general:
+    level: DEBUG
+
+additionalArguments:
+  - --providers.kubernetesIngressNginx.allowSnippetAnnotations
+  - --providers.kubernetesIngressNginx.proxyBuffering=true
+  - --providers.kubernetesIngressNginx.proxyRequestBuffering=true
