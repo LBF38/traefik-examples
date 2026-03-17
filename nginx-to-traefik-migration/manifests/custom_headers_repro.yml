@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/custom-headers: "default/custom-headers-cm"
+  name: custom-headers
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "custom-headers.localhost"
+      http:
+        paths:
+          - backend:
+              service:
+                name: whoami
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+---
+apiVersion: v1
+data:
+  Content-Type: application/json
+kind: ConfigMap
+metadata:
+  name: custom-headers-cm
+  namespace: default

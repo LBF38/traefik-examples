@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: default-cert
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "cert.localhost"
+      http:
+        paths:
+          - backend:
+              service:
+                name: whoami
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  # tls:
+  #   - hosts:
+  #       - "cert.localhost"
+  #     secretName: not-valid-tls

@@ -95,7 +95,7 @@ generate-tls-certs:
 	openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=Testing CA"
 	@echo "Generating server Certificates"
 	openssl genrsa -out server.key 2048
-	openssl req -new -key server.key -out server.csr -subj "/CN=production.localhost"
+	openssl req -new -key server.key -out server.csr -subj "/CN=whoami"
 	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
 	@echo "Generating client Certificates"
 	openssl genrsa -out client.key 2048
@@ -104,7 +104,7 @@ generate-tls-certs:
 
 .PHONY: k8s-tls-secret
 k8s-tls-secret:
-	$(KUBECTL) create secret tls tls-secret --cert=server.crt --key=server.key
+	$(KUBECTL) create secret tls whoami-tls --cert=server.crt --key=server.key
 
 .PHONY: canary-testing-nginx
 canary-testing-nginx:
