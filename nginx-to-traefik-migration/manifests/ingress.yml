@@ -2,17 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "https://bar.example.org/$1"
   name: whoami
   namespace: default
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - domain.com
-      secretName: tls-secret
+  # tls:
+  #   - hosts:
+  #       - domain.com
+  #     secretName: tls-secret
   rules:
-    - host: "*.foo.whoami.localhost"
+    - host: foo.whoami.localhost
       http:
         paths:
           - backend:

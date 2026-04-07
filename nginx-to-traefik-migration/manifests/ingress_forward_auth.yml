@@ -3,12 +3,13 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "http://auth-server.default.svc.cluster.local"
+    nginx.ingress.kubernetes.io/auth-signin: "http://auth-server.default.svc.cluster.local/signin?rd=$escaped_request_uri"
     nginx.ingress.kubernetes.io/auth-snippet: |
       if ($request_method = GET) {
         return 401;
       }
       proxy_method $request_method;
-    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Debug,X-Request-Method
+    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-User,X-Request-Method,Authorization
   name: whoami
   namespace: default
 spec:

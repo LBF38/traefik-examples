@@ -12,6 +12,7 @@ data:
             add_header Set-Cookie "session=auth" always;
             add_header X-From-Request $http_x_from_request always;
             add_header X-Request-Method $request_method always;
+            add_header Authorization "Bearer super-secret-token" always;
             return 200 "auth ok";
         }
         location /deny {

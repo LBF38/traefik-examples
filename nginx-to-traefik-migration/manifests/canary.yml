@@ -11,10 +11,10 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: alias.localhost
+    - host: cert.localhost
       http:
         paths:
-          - path: /1
+          - path: /cert
             pathType: Prefix
             backend:
               service:

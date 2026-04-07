@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "http_500"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+  name: whoami
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "retry.localhost"
+      http:
+        paths:
+          - backend:
+              service:
+                name: whoami
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+status:
+  loadBalancer: {}

@@ -2,8 +2,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: default-cert
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
+  # defaultBackend:
+  #   service:
+  #     name: production
+  #     port:
+  #       number: 80
   rules:
     - host: "cert.localhost"
       http:
@@ -13,9 +21,9 @@ spec:
                 name: whoami
                 port:
                   number: 80
-            path: /
+            path: /cert
             pathType: Prefix
   # tls:
   #   - hosts:
   #       - "cert.localhost"
-  #     secretName: not-valid-tls
+  # secretName: not-valid-tls
